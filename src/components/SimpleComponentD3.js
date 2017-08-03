@@ -33,7 +33,15 @@ class SimpleComponentD3 {
 
     this.adjustSize(el);
     
-    const { data } = props;
+    const { data, colorLegend } = props;
+
+    // define a color scale for our colorValues
+    const color = d3.scale.quantize()
+      .domain([
+        d3.min(data, d => d.colorValue),
+        d3.max(data, d => d.colorValue)
+      ])
+      .range(colorLegend);
     // get our layout data
     const nodes = this.bubble.nodes(data.length ? {children: data} : data)
       .filter(d => d.depth); // filter out the outer bubble
@@ -44,12 +52,14 @@ class SimpleComponentD3 {
 
     // move any existing nodes to their new location
     circles.attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
-      .attr('r', d => d.r);
+      .attr('r', d => d.r)
+      .style('fill', d => color(d.colorValue));
 
     // create any new nodes and postion them
     circles.enter().append('circle')
       .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
-      .attr('r', d => d.r);
+      .attr('r', d => d.r)
+      .style('fill', d => color(d.colorValue));
 
     // remove any nodes that ain't there
     circles.exit()

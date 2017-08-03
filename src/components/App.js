@@ -14,6 +14,9 @@ const colorLegend = [
   "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", '#08519c', "#08306b"
 ];
 
+//var colorScale = ['#f7fcf5','#e5f5e0','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#006d2c','#00441b'];
+
+
 
 class App extends Component {
 
@@ -30,10 +33,11 @@ class App extends Component {
 	    .then(response => {
 	      	console.log('response ' , response);
 	      	let data = response.data.map(item => {
+            let numFree = item.bays[item.bays.length-1].free;
 		        let obj = {};
 		        obj['_id'] = item.name;
-		        obj['colorValue'] = -0.09158288680865387;
-		        obj['value'] = item.bays[0].free;
+		        obj['colorValue'] = numFree;
+		        obj['value'] = numFree
 		        return obj;
 	      })
       		console.log('data ', data);
