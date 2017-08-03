@@ -16,13 +16,13 @@ const colorLegend = [
 
 //var colorScale = ['#f7fcf5','#e5f5e0','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#006d2c','#00441b'];
 
-
-
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {data:[]};
+    this.state = {apiData:[], data:[], showDisabled:false};
+    this.handleClick = this.handleClick.bind(this);
+    this.setChartData = this.setChartData.bind(this);
   }
 
   componentDidMount() {
@@ -31,23 +31,46 @@ class App extends Component {
     const params = {app_id: appID, app_key: appKey};
     axios.get( url, { params })
 	    .then(response => {
-	      	console.log('response ' , response);
-	      	let data = response.data.map(item => {
+	      	/*let data = response.data.map(item => {
             let numFree = item.bays[item.bays.length-1].free;
 		        let obj = {};
 		        obj['_id'] = item.name;
-		        obj['colorValue'] = numFree;
-		        obj['value'] = numFree
+		        obj['colorValue'] = Math.random(numFree);
+		        obj['value'] = numFree;
 		        return obj;
+          
 	      })
-      		console.log('data ', data);
-      		this.setState( {data} )
+        */
+      		this.setState( {apiData: response.data} )
+          this.setChartData();
     	});
+  }
+
+  setChartData () {
+    this.setState ({ showDisabled:!this.state.showDisabled }) 
+    let data = this.state.apiData.map(item => {
+        let numFree = item.bays[item.bays.length-1].free;
+        let obj = {};
+        obj['_id'] = item.name;
+        obj['colorValue'] = Math.random(numFree);
+        if (!this.state.showDisabled) {
+          obj['value'] = numFree*100;
+        } else {
+          obj['value'] = Math.random(numFree);
+        }
+        return obj;
+    })
+    this.setState( { data });
+  }
+
+  handleClick() {
+    this.setChartData();
   }
 
   render() {
      return (
       	<div>
+          <a href="#" onClick={this.handleClick}>Change Dataset</a>
       		<SimpleComponent data={this.state.data} colorLegend={colorLegend} />
       	</div>
       )

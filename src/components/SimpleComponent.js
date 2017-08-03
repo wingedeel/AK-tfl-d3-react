@@ -10,7 +10,7 @@ import SimpleComponentD3 from './SimpleComponentD3';
  */
 class SimpleComponent extends Component {
   render() {
-    return <div className="simple-component" ref={node => this.node = node}>Simple Component</div>;
+    return <div className="simple-component" ref={node => this.node = node}></div>;
   }
 
   /** When we mount, initialize our D3 component */
