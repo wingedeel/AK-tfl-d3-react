@@ -47,12 +47,13 @@ export default class SimpleComponentD3 {
     // link our nodes to d3
     const circles = this.svg.selectAll('circle')
       .data(nodes, d => 'g' + d._id)
+      .on('mouseover', this.tooltipMouseOver )
       
-    circles
+    //circles
       //.on('mouseover', this.tooltipMouseOver )
-      .on('click', function(d) {
-        console.log('blah', d);
-      })
+     // .on('click', function(d) {
+     //   console.log('blah', d);
+     // })
 
     // move any existing nodes to their new location
     circles.transition()
