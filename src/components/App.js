@@ -1,3 +1,10 @@
+/* ---------------------------------------
+Specify a hardcoded location
+Returns 227 bike points
+Default, initial display shows 10 points.
+User can change the number of bike points displayed.
+--------------------------------------- */
+
 import React, { Component } from 'react';
 import SimpleComponent from './SimpleComponent';
 import axios from 'axios';
@@ -11,16 +18,7 @@ const location = {
       neLat:'52.0'
     };
 
-const colorLegend = [
-  // reds from dark to light
-  "#67000d", "#a50f15", "#cb181d", "#ef3b2c", "#fb6a4a", "#fc9272", "#fcbba1", "#fee0d2",
-  //neutral grey
-  "#f0f0f0",
-  // blues from light to dark
-  "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", '#08519c', "#08306b"
-];
-
-//var colorScale = ['#f7fcf5','#e5f5e0','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#006d2c','#00441b'];
+const colorLegend = ['#f7fcf5','#e5f5e0','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#006d2c','#00441b'];
 
 
 
@@ -32,11 +30,10 @@ class App extends Component {
     this.state = {
       allData:[], 
       chartData:[],  
-      numOfResults:10
+      numOfResults:25
     };
 
-    this.getRange = this.getRange.bind(this);
-    this.requestBikePoints = this.requestBikePoints.bind(this);
+    this.requestData = this.requestData.bind(this);
     this.setChartData = this.setChartData.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -44,24 +41,12 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.requestBikePoints(location);
+    this.requestData('BikePoint',location);
   }
 
-  getRange(start, end) {
-    var foo = [];
-    for (var i = start; i <= end; i++) {
-        foo.push(i);
-    }
-    return foo;
-  }
 
-/* ---------------------------------------
-Specify a hardcoded location
-Returns 227 bike points
-Default, initial display shows 10 points.
-User can change the number of bike points displayed.
---------------------------------------- */
-  requestBikePoints(loc){
+
+  requestData(type, loc){
     //const url = 'https://api.tfl.gov.uk/Place?swLat=51.0&swLon=-0.1&neLon=0.1&neLat=52.0&type=BikePoint'
     const url = 'https://api.tfl.gov.uk/Place';
     const params =  {
@@ -71,7 +56,7 @@ User can change the number of bike points displayed.
       swLon:loc.swLon,
       neLon:loc.neLon,
       neLat:loc.neLat,
-      type:'BikePoint'
+      type
     };
     axios.get( url, {params})
       .then(response => {
@@ -84,37 +69,39 @@ User can change the number of bike points displayed.
   setChartData(){
     let chartData=[];
     for (var i=0; i<this.state.numOfResults; i++) {
-          let item = this.state.allData[i];
-          let numFree = item.additionalProperties[7].value;
         let obj = {};
+        let item = this.state.allData[i];
+        let numFree = item.additionalProperties[7].value;
         obj['_id'] = item.commonName;
-        obj['colorValue'] = Math.random(numFree);
-          obj['value'] = Math.random(numFree);
-          chartData.push(obj);
+        obj['numFree'] = numFree;
+        obj['colorValue'] = numFree*100;
+        obj['value'] = numFree;
+        chartData.push(obj);
     }
-      this.setState( {chartData});
+    this.setState( {chartData});
   }
 
   onFormSubmit(event){
     event.preventDefault();
-    this.setState( { numOfResults:this.state.numOfResults});
     this.setChartData();
-    //this.props.fetchResults(this.props.searchTerm);
   }
   
 
   onInputChange(event){
-    this.setState( { numOfResults:event.target.value});
-    //this.props.setSearchTerm(event.target.value);
+    let max = this.state.allData.length;
+    let num = event.target.value>max ? max : event.target.value;
+    this.setState( { numOfResults:num});
   }
 
   render() {
      return (
       	<div className="app">
-          <h2>Showing {this.state.chartData.length} Nearby Bike Locations</h2>
-          <form onSubmit={this.onFormSubmit}>
+          <h1>London Bike Points - places free</h1>
+          <h4>Using data from the TfL Unified API</h4>
+          <form className="form" onSubmit={this.onFormSubmit}>
+            <span>Number of results to show?  </span>
             <input
-              placeholder="Enter search term here"
+              placeholder="Enter number here"
               value={this.state.numOfResults}
               onChange={this.onInputChange}/>
             <span>

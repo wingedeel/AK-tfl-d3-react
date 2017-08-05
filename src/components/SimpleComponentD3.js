@@ -2,7 +2,7 @@ import d3 from 'd3';
 
 export default class SimpleComponentD3 {
   constructor(el, props = {}) {
-
+    console.log('el ', el);
     // this.svg is the container svg
     this.svg = d3.select(el).append('svg')
       .style('overflow', 'visible')
@@ -90,7 +90,6 @@ export default class SimpleComponentD3 {
       .style('fill', d => color(d.colorValue));
 
     labels
-      .on('mouseover', this._tooltipMouseOver.bind(this, color, el))
       .transition()
       .duration(duration)
       .delay((d, i) => i * 7)
@@ -114,7 +113,7 @@ export default class SimpleComponentD3 {
 
     labels.enter().append('div')
         .attr('class', 'bubble-label')
-        .text(d => d.displayText || d._id)
+        .text(d => d.displayText || (d._id + ' (' + d.numFree + ')'))
         .style('position', 'absolute')
         .style('height', d => 2 * d.r + 'px')
         .style('width', d => 2 * d.r + 'px')
@@ -160,10 +159,6 @@ export default class SimpleComponentD3 {
       .style('height', 0)
       .remove();
 
-  }
-
-  _tooltipMouseOver(color, el, d, i) {
-    console.log('tooltip mouse over ')
   }
 
   handleMouseover() {

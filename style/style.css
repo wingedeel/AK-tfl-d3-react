@@ -4,17 +4,19 @@
 * { 
 	outline: none; 
 	box-sizing: border-box; 
+  /*border: solid 1px black;*/
 }
 
-body { 
-	padding: 0; margin: 0; 
+h1,h2, h3, h4, h5, h6 {
+  padding: 0; 
+  margin:0;
 }
 
-html, body, .app, .simple-component { 
+
+.app, .simple-component { 
 	height: 100%; 
 	width: 100%; 
 	position: absolute; 
-	top: 0; 
 	right: 0; 
 }
 
@@ -23,13 +25,12 @@ body, button, input {
   font-size: 1em;
 }
 
-/* ================================= 
-  Base Layout Styles
-==================================== */
+
 .app {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  align-items: center;
  }
 
  /* Center the contents of the bubble chart */
@@ -41,15 +42,16 @@ body, button, input {
     justify-content: center;
 }
 
+
+.form {
+  margin-top: 10px;
+}
+
 .bubble-chart-text {
       /* Center text in the circle, and hide any overflow */
 }
 
-/*
-  @accent-color: #2171b5;
-@accent-text-color: #fff;
-@secondary-text-color: #000;
-*/
+
 .bubble-label {
   text-align: center;
   overflow: hidden;
@@ -58,7 +60,7 @@ body, button, input {
   align-items: center;
   justify-content: space-around;
   border-radius: 50%;
-  color: #2171b5;
+  color: #ffca99;
  }
 
  /* Show the overflow when hovering over a label */

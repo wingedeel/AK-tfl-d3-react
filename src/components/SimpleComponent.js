@@ -2,12 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import SimpleComponentD3 from './SimpleComponentD3';
 
-/**
- * This is a rather simple component. For more "production ready" designs,
- * you should consider manually formatting the props object returned in getProps
- * instead of returning everything. It should also handle resizing. For a more
- * thorough example, see: https://github.com/kauffecup/react-bubble-chart
- */
 class SimpleComponent extends Component {
   render() {
     return <div className="simple-component" ref={node => this.node = node}></div>;
