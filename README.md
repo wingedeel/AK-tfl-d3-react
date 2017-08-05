@@ -3,13 +3,13 @@
 This app uses TfL BikePoint data to display a D3 bubble chart of currently available BikePoint places in London.
 
 
-###### Data 
+#### Data 
 This app is powered by data from the TfL Unified API: (https://api.tfl.gov.uk/)
 
-###### Visualisation
+#### Visualisation
 Uses D3.js for the Bubble Chart visualisation
 
-###### React
+#### React
 Method for D3.js and React integration is based on J Kaufman's work as detailed here:
 (https://github.com/kauffecup/react-d3-examples)
 
