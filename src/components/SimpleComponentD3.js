@@ -2,9 +2,13 @@ import d3 from 'd3';
 
 export default class SimpleComponentD3 {
   constructor(el, props = {}) {
+
+    // Append svg to root element
     this.svg = d3.select(el).append('svg')
-      .attr('class', 'bubble-chart-d3')
+      //.attr('class', 'bubble-chart-d3')
       .style('overflow', 'visible');
+
+/*
     this.html = d3.select(el).append('div')
       .attr('class', 'bubble-chart-text')
       .style('position', 'absolute')
@@ -12,34 +16,46 @@ export default class SimpleComponentD3 {
       .style('right', 0)
       .style('margin-left', 'auto')
       .style('margin-right', 'auto');
+*/
     this.update(el, props);
+
+    this.handleMouseover = this.handleMouseover.bind(this);
+    this.handleMouseout = this.handleMouseout.bind(this);
   }
 
+
   adjustSize(el) {
+
+    // Centrally position the svg
     this.diameter = Math.min(el.offsetWidth, el.offsetHeight);
     const top  = Math.max((el.offsetHeight - this.diameter)/2, 0);
-    // center some stuff vertically
     this.svg.attr('width', this.diameter)
       .attr('height', this.diameter)
       .style('position', 'relative')
-      .style('top', top + 'px');   // center vertically
+      .style('top', top + 'px'); 
+/*
     this.html.style('width', this.diameter + 'px')
       .style('height', this.diameter + 'px')
       .style('top', top + 'px');   // center vertically;
-    // create the bubble layout that we will use to position our bubbles\
+*/
+
+    // Create D3 bubble layout
     this.bubble = d3.layout.pack()
       .sort(null)
       .size([this.diameter, this.diameter])
       .padding(3);
   }
 
+
   update(el, props) {
+
     this.adjustSize(el);
+
     const duration = 500;
     const delay = 0;
     const { data, colorLegend } = props;
     
-    // define a color scale for our colorValues
+    // Define a color scale for our colorValues
     const color = d3.scale.quantize()
       .domain([
         d3.min(data, d => d.colorValue),
@@ -47,17 +63,22 @@ export default class SimpleComponentD3 {
       ])
       .range(colorLegend);
 
-    // get our layout data
+
+    // Get our D3 bubble layout data
     const nodes = this.bubble.nodes(data.length ? {children: data} : data)
       .filter(d => d.depth); // filter out the outer bubble
 
-    // link our nodes to d3
+    // Link our nodes to d3
     const circles = this.svg.selectAll('circle')
-      .data(nodes, d => 'g' + d._id);
-    const labels = this.html.selectAll('.bubble-label')
-      .data(nodes, d => 'g' + d._id);
+      .data(nodes, d => 'g' + d._id)
+      .on('mouseover', this.handleMouseover )
+      .on('mouseout', this.handleMouseout )
 
-    // move any existing nodes to their new location
+/*
+    const labels = this.html.selectAll('.bubble-label')
+      .data(nodes, d => 'g' + d._id)
+*/
+    // Move any existing nodes to their new location
     circles.transition()
       .duration(duration)
       .delay((d, i) => i * 7)
@@ -65,7 +86,9 @@ export default class SimpleComponentD3 {
       .attr('r', d => d.r)
       .style('opacity', 1)
       .style('fill', d => color(d.colorValue));
-    labels.transition()
+/*
+    labels
+      .transition()
       .duration(duration)
       .delay((d, i) => i * 7)
       .style('height', d => 2 * d.r + 'px')
@@ -73,7 +96,9 @@ export default class SimpleComponentD3 {
       .style('left', d =>  d.x - d.r + 'px')
       .style('top', d =>  d.y - d.r + 'px')
       .style('opacity', 1);
-    // create any new nodes and postion them
+*/
+
+    // Create any new nodes and postion them
     circles.enter().append('circle')
       .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
       .attr('r', 0)
@@ -83,6 +108,7 @@ export default class SimpleComponentD3 {
       .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
       .attr('r', d => d.r)
       .style('opacity', 1);
+/*
     labels.enter().append('div')
         .attr('class', 'bubble-label')
         .text(d => d.displayText || d._id)
@@ -95,7 +121,8 @@ export default class SimpleComponentD3 {
         .transition()
         .duration(duration * 1.2)
         .style('opacity', 1);
-    // remove any nodes that ain't there
+*/
+    // Remove any nodes that need to go
     circles.exit()
       .transition()
       .duration(duration)
@@ -108,6 +135,8 @@ export default class SimpleComponentD3 {
         return 'translate(' + destX + ',' + destY + ')'; })
       .attr('r', 0)
       .remove();
+      
+/*
     labels.exit()
       .transition()
       .duration(duration)
@@ -127,6 +156,17 @@ export default class SimpleComponentD3 {
       .style('width', 0)
       .style('height', 0)
       .remove();
+  */
+
+  }
+
+
+  handleMouseover() {
+    console.log('tooltip mouse over')
+  }
+
+  handleMouseout() {
+    console.log('tooltip mouse out')
   }
 
   /** Any necessary cleanup */
