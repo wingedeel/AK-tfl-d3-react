@@ -1,16 +1,73 @@
 /* ================================= 
   Base Element Styles
 ==================================== */
-body {
-    background-color: #fff;
+* { 
+	outline: none; 
+	box-sizing: border-box; 
+}
+
+body { 
+	padding: 0; margin: 0; 
+}
+
+html, body, .app, .simple-component { 
+	height: 100%; 
+	width: 100%; 
+	position: absolute; 
+	top: 0; 
+	right: 0; 
+}
+
+body, button, input {
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-size: 1em;
 }
 
 /* ================================= 
   Base Layout Styles
 ==================================== */
+.app {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+ }
 
+ /* Center the contents of the bubble chart */
+.simple-component {
+    flex: 1;
+    position: relative;
+    display: flex;
+    user-select: none;
+    justify-content: center;
+}
+
+.bubble-chart-text {
+      /* Center text in the circle, and hide any overflow */
+}
+
+/*
+  @accent-color: #2171b5;
+@accent-text-color: #fff;
+@secondary-text-color: #000;
+*/
+.bubble-label {
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 50%;
+  color: #2171b5;
+ }
+
+ /* Show the overflow when hovering over a label */
+.bubble-label:hover {
+  overflow: visible;
+  font-weight: bold;
+}
+    
 
 /* ================================= 
   Media Queries
 ==================================== */
-

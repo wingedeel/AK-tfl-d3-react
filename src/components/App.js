@@ -35,6 +35,8 @@ class App extends Component {
     this.requestMultipleHardcodedBikePoints = this.requestMultipleHardcodedBikePoints.bind(this);
     this.receivedHardcodedBikePointData = this.receivedHardcodedBikePointData.bind(this);
     this.setHardcodedBikeChartData = this.setHardcodedBikeChartData.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -134,7 +136,7 @@ User can change the number of bike points displayed.
         obj['_id'] = item.commonName;
         obj['colorValue'] = Math.random(numFree);
         if (!this.state.showDisabled) {
-          obj['value'] = numFree*100;
+          obj['value'] = numFree*75;
         } else {
           obj['value'] = Math.random(numFree);
         }
@@ -214,14 +216,35 @@ User can change the number of bike points displayed.
     //this.requestMultipleBikePoints(this.state.startIndex,this.state.endIndex);
   }
 
+  onFormSubmit(event){
+    event.preventDefault();
+    this.setState( { endIndex:this.state.endIndex});
+    this.requestMultipleHardcodedBikePoints();
+    //this.props.fetchResults(this.props.searchTerm);
+  }
+  
+
+  onInputChange(event){
+    this.setState( { endIndex:event.target.value});
+    //this.props.setSearchTerm(event.target.value);
+  }
+
   render() {
      return (
-      	<div>
-          <a href="#" onClick={this.handleClick}>Change Dataset</a>
+      	<div className="app">
           <h2>Showing {this.state.data.length} Nearby Bike Locations</h2>
+          <a href="#" onClick={this.handleClick}>Change Dataset</a>
+          <form onSubmit={this.onFormSubmit}>
+            <input
+              placeholder="Enter search term here"
+              value={this.state.endIndex}
+              onChange={this.onInputChange}/>
+            <span>
+              <button type="submit">Submit</button>
+            </span>
+          </form>
       		<SimpleComponent data={this.state.data} colorLegend={colorLegend} />
-
-      	</div>
+      </div>
       )
   }
 }
