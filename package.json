@@ -1,7 +1,7 @@
 {
-  "name": "AK-ReactProjectTemplate",
+  "name": "AK-tfl-d3-react",
   "version": "1.0.0",
-  "description": "AK-ReactProjectTemplate",
+  "description": "D3 bubble chart displaying BikePoint data from TfL API ",
   "main": "index.js",
   "repository": "",
   "scripts": {

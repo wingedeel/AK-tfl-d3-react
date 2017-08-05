@@ -97,7 +97,7 @@ class App extends Component {
      return (
       	<div className="app">
           <h1>London Bike Points - places free</h1>
-          <h4>Using data from the TfL Unified API</h4>
+          <h4>Powered by data from the TfL Unified API</h4>
           <form className="form" onSubmit={this.onFormSubmit}>
             <span>Number of results to show?  </span>
             <input
