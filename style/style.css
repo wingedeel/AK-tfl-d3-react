@@ -22,7 +22,7 @@ h1,h2, h3, h4, h5, h6 {
 
 body, button, input {
   font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 
 
@@ -67,7 +67,7 @@ body, button, input {
 .bubble-label:hover {
   overflow: visible;
   font-weight: bold;
-  color:#000;
+  color:#fff;
 }
     
 
