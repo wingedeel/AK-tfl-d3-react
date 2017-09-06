@@ -22,7 +22,7 @@ h1,h2, h3, h4, h5, h6 {
 
 body, button, input {
   font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 
@@ -60,14 +60,16 @@ body, button, input {
   align-items: center;
   justify-content: space-around;
   border-radius: 50%;
-  color: #ffca99;
+  font-weight: bold;
+  color:#fff;
+  font-size: 0.7em;
  }
 
  /* Show the overflow when hovering over a label */
 .bubble-label:hover {
   overflow: visible;
   font-weight: bold;
-  color:#fff;
+  color:#000;
 }
     
 

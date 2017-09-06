@@ -18,8 +18,17 @@ const location = {
       neLat:'52.0'
     };
 
-const colorLegend = ['#f7fcf5','#e5f5e0','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#006d2c','#00441b'];
-
+const colorLegend = 
+//['#f7fcf5','#e5f5e0','#c7e9c0','#a1d99b','#74c476','#41ab5d','#238b45','#006d2c','#00441b'];
+//["#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", '#08519c', "#08306b"];
+[
+ // reds from dark to light
+ "#67000d", "#a50f15", "#cb181d", "#ef3b2c", "#fb6a4a", "#fc9272", "#fcbba1", "#fee0d2",
+ //neutral grey
+ "#f0f0f0",
+ // blues from light to dark
+ "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", '#08519c', "#08306b"
+];
 
 
 class App extends Component {
